@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Student Attendance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        margin: 0;
+      }
+
+      .auth-box {
+        background: #fff;
+        padding: 40px 35px;
+        border-radius: 12px;
+        width: 360px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      .auth-box h2 {
+        margin-bottom: 20px;
+        color: #4f46e5;
+        font-size: 24px;
+      }
+
+      .auth-box input {
+        width: 90%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+        transition: border 0.2s;
+      }
+
+      .auth-box input:focus {
+        border-color: #4f46e5;
+      }
+
+      .auth-box button {
+        width: 100%;
+        padding: 12px;
+        background: #4f46e5;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 12px;
+        transition: background 0.3s;
+      }
+
+      .auth-box button:hover {
+        background: #3730a3;
+      }
+
+      .auth-box p {
+        margin-top: 15px;
+        font-size: 13px;
+      }
+
+      .auth-box a {
+        color: #4f46e5;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .auth-box a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="auth-box">
+      <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+      <input type="text" id="identifier" placeholder="Email or Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button onclick="login()">Login</button>
+      <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+    </div>
+
+    <script>
+      // Redirect to dashboard if already logged in
+      const token = localStorage.getItem("token");
+      if (token) {
+        window.location.href = "dashboard.html";
+      }
+
+      async function login() {
+        const identifier = document.getElementById("identifier").value;
+        const password = document.getElementById("password").value;
+
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ identifier, password })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("loggedInStudent", data.username);
+          localStorage.setItem("email", data.email);
+          console.log("Login attempt for identifier:", identifier); // debug
+          window.location.href = "dashboard.html";
+        } else {
+          //alert(data.message);
+          console.log("Login failed:", data.message); // debug
+          alert("Login failed: " + data.message);
+        }
+      }
+    </script>
+  </body>
+
+</html>

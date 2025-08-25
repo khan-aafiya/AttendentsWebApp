@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Landing | Student Attendance</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </head>
+
+    <body>
+        <!-- Navbar -->
+        <nav>
+            <div class="logo">
+                <i class="fas fa-calendar-check"></i> Student Attendance
+            </div>
+            <div class="user-menu" onclick="toggleDropdown()">
+                <i class="fas fa-user user-icon"></i>
+                <div class="dropdown" id="userDropdown">
+                    <a href="profile.html">👤 Profile</a>
+                    <a href="#" onclick="logout()">🚪 Logout</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Landing Content -->
+        <div class="container" style="text-align:center; padding:50px;">
+            <h1>Welcome to the Student Attendance System</h1>
+            <p>Manage attendance efficiently and track student status.</p>
+            <div style="margin-top:30px;">
+                <a href="login.html"
+                    style="padding:12px 25px; background:#4f46e5; color:white; border-radius:8px; text-decoration:none; margin-right:10px;">Login</a>
+                <a href="signup.html"
+                    style="padding:12px 25px; background:#10b981; color:white; border-radius:8px; text-decoration:none;">Sign
+                    Up</a>
+            </div>
+        </div>
+
+        <script>
+            function toggleDropdown() {
+                document.getElementById("userDropdown").classList.toggle("show");
+            }
+
+            function logout() {
+                localStorage.removeItem("token");
+                alert("Logged out successfully!");
+                window.location.href = "/login";
+            }
+
+            // Close dropdown if clicking outside
+            window.onclick = function (event) {
+                if (!event.target.matches('.user-icon')) {
+                    const dropdown = document.getElementById("userDropdown");
+                    if (dropdown.classList.contains("show")) {
+                        dropdown.classList.remove("show");
+                    }
+                }
+            }
+        </script>
+
+        <style>
+            /* Show dropdown when toggled */
+            .dropdown.show {
+                display: block;
+            }
+        </style>
+    </body>
+
+</html>

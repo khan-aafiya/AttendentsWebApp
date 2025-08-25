@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard | Student Attendance</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </head>
+
+    <body>
+        <nav>
+            <div class="logo"><i class="fas fa-calendar-check"></i> Student Attendance</div>
+            <div class="user-menu">
+                <i class="fas fa-user user-icon" onclick="toggleDropdown()"></i>
+                <div class="dropdown" id="userDropdown">
+                    <a href="profile.html" onclick="loadProfile()">👤 Profile</a>
+                    <a href="#" onclick="logout()">🚪 Logout</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <header>
+                <h1><i class="fas fa-calendar-check"></i> Student Attendance System</h1>
+                <p class="subtitle">Click on any day to mark attendance between (11:00 PM and 8:00 AM)</p>
+            </header>
+
+            <div class="main-content">
+                <div class="sidebar">
+                    <div id="time-status" class="time-status">
+                        <p id="time-message">Welcome to Attendance System</p>
+                        <p id="current-time">Current time: Loading...</p>
+                        <p class="hour-message" id="hour-restriction">(Attendance allowed between 11 PM - 8 AM)</p>
+                    </div>
+
+                    <h2 style="color: #4f46e5; margin-bottom: 12px; font-size: 16px;">📊 Students Status</h2>
+                    <div class="student-list" id="student-list"></div>
+                    <div class="today-date" id="today-date">📅 Today: Loading...</div>
+                </div>
+
+                <div class="calendar-container">
+                    <div class="instructions">
+                        <p><strong>How to use:</strong> First select a student, then click on any day cell to mark
+                            attendance for that day.</p>
+                        <p><strong>Time restriction:</strong> Attendance can only be marked between 11 PM and 8 AM.</p>
+                    </div>
+
+                    <h2 style="color: #4f46e5; margin-bottom: 15px; font-size: 16px;">📋 Weekly Attendance Calendar</h2>
+
+                    <div style="margin-bottom: 15px;">
+                        <label for="student-select" style="font-weight: bold; margin-right: 8px;">Select
+                            Student:</label>
+                        <select id="student-select">
+                            <option value="">-- Select a student --</option>
+                        </select>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table class="weekly-calendar">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Mon</th>
+                                    <th>Tue</th>
+                                    <th>Wed</th>
+                                    <th>Thu</th>
+                                    <th>Fri</th>
+                                    <th>Sat</th>
+                                    <th style="background:#fecaca; color:#f00c0c;">Sun</th>
+                                </tr>
+                            </thead>
+                            <tbody id="weekly-attendance"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Popup -->
+        <div id="notification" class="notification">
+            <span id="notification-icon"></span>
+            <strong id="notification-title"></strong>
+            <span id="notification-message"></span>
+        </div>
+
+
+        <script>
+            // Redirect if not logged in
+            const token = localStorage.getItem("token");
+            if (!token) {
+                window.location.href = "login.html";
+            }
+
+            function toggleDropdown() {
+                document.getElementById("userDropdown").classList.toggle("show");
+            }
+
+            function logout() {
+                localStorage.removeItem("token");
+                window.location.href = "login.html";
+            }
+
+            window.onclick = function (event) {
+                const dropdown = document.getElementById("userDropdown");
+                if (!event.target.matches('.user-icon') && !event.target.closest('.dropdown')) {
+                    dropdown.classList.remove("show");
+                }
+            }
+        </script>
+
+        <style>
+            .dropdown.show {
+                display: block;
+            }
+        </style>
+        <script src="script.js"></script>
+    </body>
+
+</html>
